@@ -1,0 +1,106 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="profile-page">
+
+    <section class="profile-hero">
+        <div>
+            <span class="profile-eyebrow">JOBConnect · YOUR ACCOUNT</span>
+            <h1>My Profile</h1>
+            <p>Keep your professional details updated and showcase your skills.</p>
+        </div>
+        <div class="profile-hero-icon">👤</div>
+    </section>
+
+    <div class="profile-layout">
+
+        <aside class="profile-sidebar">
+            <div class="profile-avatar">
+                {{ (user.name or "U")[0]|upper }}
+            </div>
+
+            <h2>{{ user.name }}</h2>
+            <p class="profile-sidebar-email">{{ user.email }}</p>
+
+            <div class="profile-sidebar-divider"></div>
+
+            <div class="profile-sidebar-info">
+                <span>✓</span>
+                <p>Manage your personal information</p>
+            </div>
+
+            <div class="profile-sidebar-info">
+                <span>✓</span>
+                <p>Highlight your professional skills</p>
+            </div>
+
+            <a href="{{ url_for('jobs') }}" class="profile-jobs-link">
+                Explore Job Opportunities →
+            </a>
+        </aside>
+
+        <section class="profile-form-card">
+            <div class="profile-form-heading">
+                <div>
+                    <h2>Personal Information</h2>
+                    <p>Update your details below and save your changes.</p>
+                </div>
+                <span class="profile-edit-icon">✎</span>
+            </div>
+
+            <form method="POST" action="{{ url_for('profile') }}"
+                  class="profile-form">
+
+                <div class="profile-field">
+                    <label for="name">Full Name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value="{{ user.name }}"
+                        placeholder="Enter your full name"
+                        required
+                    >
+                </div>
+
+                <div class="profile-field">
+                    <label for="email">Email Address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value="{{ user.email }}"
+                        placeholder="Enter your email address"
+                        required
+                    >
+                    <small>Use an email address you can access.</small>
+                </div>
+
+                <div class="profile-field">
+                    <label for="skills">Professional Skills</label>
+                    <textarea
+                        id="skills"
+                        name="skills"
+                        rows="5"
+                        placeholder="Python, SQL, Excel, Power BI..."
+                    >{{ user.skills or '' }}</textarea>
+                    <small>Example: Python, SQL, Excel, Power BI, Communication</small>
+                </div>
+
+                <div class="profile-form-actions">
+                    <button type="submit" class="profile-save-btn">
+                        Save Changes →
+                    </button>
+                    <a href="{{ url_for('dashboard') }}"
+                       class="profile-cancel-btn">
+                        Back to Dashboard
+                    </a>
+                </div>
+
+            </form>
+        </section>
+
+    </div>
+</div>
+{% endblock %}

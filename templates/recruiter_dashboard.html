@@ -1,0 +1,100 @@
+
+{% extends "base.html" %}
+
+{% block title %}Recruiter Dashboard | JobConnect{% endblock %}
+
+{% block content %}
+<div class="recruiter-page">
+
+    <!-- Welcome Section -->
+    <section class="recruiter-welcome">
+        <div>
+            <span class="dashboard-eyebrow">RECRUITER WORKSPACE</span>
+            <h1>Welcome back, {{ session.get('name', 'Recruiter') }}!</h1>
+            <p>Manage your job postings, review applicants, and find the right talent.</p>
+        </div>
+
+        <a href="{{ url_for('post_job') }}" class="recruiter-primary-btn">
+            + Post a New Job
+        </a>
+    </section>
+
+    <!-- Statistics -->
+    <section class="recruiter-stats">
+
+        <div class="recruiter-stat-card stat-blue">
+            <div class="stat-top">
+                <span>Total Jobs</span>
+                <span class="stat-icon">💼</span>
+            </div>
+            <h2>{{ total_jobs }}</h2>
+            <p>Jobs posted by you</p>
+        </div>
+
+        <div class="recruiter-stat-card stat-teal">
+            <div class="stat-top">
+                <span>Total Applicants</span>
+                <span class="stat-icon">👥</span>
+            </div>
+            <h2>{{ total_applicants }}</h2>
+            <p>Applications received</p>
+        </div>
+
+        <div class="recruiter-stat-card stat-orange">
+            <div class="stat-top">
+                <span>Pending Applications</span>
+                <span class="stat-icon">⏳</span>
+            </div>
+            <h2>{{ pending_applications }}</h2>
+            <p>Awaiting your review</p>
+        </div>
+
+        <div class="recruiter-stat-card stat-purple">
+            <div class="stat-top">
+                <span>Shortlisted</span>
+                <span class="stat-icon">⭐</span>
+            </div>
+            <h2>{{ shortlisted_applications }}</h2>
+            <p>Promising candidates</p>
+        </div>
+
+    </section>
+
+    <!-- Management Section -->
+    <section class="recruiter-management">
+        <div class="management-heading">
+            <span class="dashboard-eyebrow">QUICK ACCESS</span>
+            <h2>Manage your recruitment</h2>
+            <p>Everything you need to manage your hiring process.</p>
+        </div>
+
+        <div class="management-grid">
+
+            <article class="management-card">
+                <div class="management-icon post-icon">＋</div>
+                <h3>Post a Job</h3>
+                <p>Publish a new job opportunity and attract suitable candidates.</p>
+                <a href="{{ url_for('post_job') }}">
+                    Create Job Posting <span>→</span>
+                </a>
+            </article>
+
+            <article class="management-card">
+                <div class="management-icon jobs-icon">▤</div>
+                <h3>My Posted Jobs</h3>
+                <p>View your existing listings and manage applications from candidates.</p>
+                <a href="{{ url_for('my_posted_jobs') }}">
+                    Manage Job Listings <span>→</span>
+                </a>
+            </article>
+
+        </div>
+    </section>
+
+    <footer class="recruiter-footer">
+        <span>JobConnect</span>
+        <p>Build your team. Discover great talent.</p>
+    </footer>
+
+</div>
+{% endblock %}

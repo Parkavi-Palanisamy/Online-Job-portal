@@ -1,0 +1,130 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="applicants-page">
+
+    <section class="applicants-hero">
+        <div>
+            <span class="applicants-eyebrow">RECRUITER WORKSPACE</span>
+            <h1>Applicants</h1>
+            <p>Review candidates and manage applications for your job opening.</p>
+            <div class="applicants-job-name">
+                Position: {{ job.title }}
+            </div>
+        </div>
+        <div class="applicants-hero-icon">👥</div>
+    </section>
+
+    <div class="applicants-heading">
+        <div>
+            <h2>Candidate Applications</h2>
+            <p>Review candidate details, download resumes and update statuses.</p>
+        </div>
+        <span class="applicants-count">
+            {{ applicants|length }} Applicant{% if applicants|length != 1 %}s{% endif %}
+        </span>
+    </div>
+
+    {% if applicants %}
+        <div class="applicants-list">
+            {% for applicant in applicants %}
+                <article class="applicant-card">
+
+                    <div class="applicant-card-header">
+                        <div class="applicant-avatar">
+                            {{ (applicant.applicant_name or "A")[0]|upper }}
+                        </div>
+
+                        <div class="applicant-main-info">
+                            <h3>{{ applicant.applicant_name }}</h3>
+                            <p>{{ applicant.applicant_email }}</p>
+                        </div>
+
+                        {% set status = applicant.status or "Pending" %}
+                        <span class="applicant-status
+                            {% if status == 'Shortlisted' %}
+                                applicant-status-shortlisted
+                            {% elif status == 'Rejected' %}
+                                applicant-status-rejected
+                            {% elif status == 'Reviewed' %}
+                                applicant-status-reviewed
+                            {% else %}
+                                applicant-status-pending
+                            {% endif %}">
+                            {{ status }}
+                        </span>
+                    </div>
+
+                    <div class="applicant-applied-date">
+                        <span>🗓️</span>
+                        <div>
+                            <small>Application Received</small>
+                            <p>{{ applicant.applied_at }}</p>
+                        </div>
+                    </div>
+
+                    <div class="applicant-card-actions">
+                        {% if applicant.application_id %}
+                            <a class="applicant-resume-btn"
+                               href="{{ url_for('download_resume', application_id=applicant.application_id) }}">
+                                ↓ Download Resume (PDF)
+                            </a>
+
+                            <form class="applicant-status-form"
+                                  method="POST"
+                                  action="{{ url_for('update_application_status', application_id=applicant.application_id) }}">
+
+                                <label for="status-{{ applicant.application_id }}">
+                                    Update Application Status
+                                </label>
+
+                                <div class="applicant-status-controls">
+                                    <select
+                                        id="status-{{ applicant.application_id }}"
+                                        name="status"
+                                        required>
+                                        <option value="Pending"
+                                            {% if status == 'Pending' %}selected{% endif %}>
+                                            Pending
+                                        </option>
+                                        <option value="Reviewed"
+                                            {% if status == 'Reviewed' %}selected{% endif %}>
+                                            Reviewed
+                                        </option>
+                                        <option value="Shortlisted"
+                                            {% if status == 'Shortlisted' %}selected{% endif %}>
+                                            Shortlisted
+                                        </option>
+                                        <option value="Rejected"
+                                            {% if status == 'Rejected' %}selected{% endif %}>
+                                            Rejected
+                                        </option>
+                                    </select>
+
+                                    <button type="submit" class="applicant-update-btn">
+                                        Save Status →
+                                    </button>
+                                </div>
+                            </form>
+                        {% endif %}
+                    </div>
+
+                </article>
+            {% endfor %}
+        </div>
+
+    {% else %}
+        <section class="applicants-empty">
+            <div class="applicants-empty-icon">📭</div>
+            <h2>No Applicants Yet</h2>
+            <p>No candidates have applied for this position yet. Applications will appear here when candidates apply.</p>
+        </section>
+    {% endif %}
+
+    <div class="applicants-back">
+        <a href="{{ url_for('my_posted_jobs') }}">← Back to My Posted Jobs</a>
+    </div>
+
+</div>
+{% endblock %}

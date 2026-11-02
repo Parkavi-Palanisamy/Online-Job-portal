@@ -1,0 +1,151 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="post-job-page">
+
+    <section class="post-job-hero">
+        <div>
+            <span class="post-job-eyebrow">RECRUITER WORKSPACE</span>
+            <h1>Post a New Job</h1>
+            <p>Connect with talented candidates and find the right person for your team.</p>
+        </div>
+        <div class="post-job-hero-icon">💼</div>
+    </section>
+
+    <div class="post-job-layout">
+
+        <section class="post-job-form-card">
+            <div class="post-job-heading">
+                <div>
+                    <h2>Job Details</h2>
+                    <p>Fill in the information below to publish your opportunity.</p>
+                </div>
+                <span class="post-job-required">* Required fields</span>
+            </div>
+
+            <form method="POST"
+                  action="{{ url_for('post_job') }}"
+                  class="post-job-form">
+
+                <div class="post-job-field">
+                    <label for="title">Job Title <span>*</span></label>
+                    <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        placeholder="e.g. Python Developer"
+                        required
+                    >
+                </div>
+
+                <div class="post-job-field">
+                    <label for="description">Job Description <span>*</span></label>
+                    <textarea
+                        id="description"
+                        name="description"
+                        rows="5"
+                        placeholder="Describe the role, responsibilities and expectations..."
+                        required
+                    ></textarea>
+                </div>
+
+                <div class="post-job-field">
+                    <label for="requirements">Requirements</label>
+                    <textarea
+                        id="requirements"
+                        name="requirements"
+                        rows="4"
+                        placeholder="Skills, qualifications, experience and technical knowledge..."
+                    ></textarea>
+                    <small>List the skills and qualifications candidates should have.</small>
+                </div>
+
+                <div class="post-job-two-columns">
+                    <div class="post-job-field">
+                        <label for="location">Job Location <span>*</span></label>
+                        <input
+                            type="text"
+                            id="location"
+                            name="location"
+                            placeholder="e.g. Chennai"
+                            required
+                        >
+                    </div>
+
+                    <div class="post-job-field">
+                        <label for="salary">Salary / Stipend</label>
+                        <input
+                            type="text"
+                            id="salary"
+                            name="salary"
+                            placeholder="e.g. ₹15,000 per month"
+                        >
+                    </div>
+                </div>
+
+                <div class="post-job-field">
+                    <label for="job_type">Employment Type <span>*</span></label>
+                    <select id="job_type" name="job_type" required>
+                        <option value="">Select Job Type</option>
+                        <option value="Full-Time">Full-Time</option>
+                        <option value="Part-Time">Part-Time</option>
+                        <option value="Internship">Internship</option>
+                    </select>
+                </div>
+
+                <div class="post-job-submit-area">
+                    <p>Review your details before publishing the job.</p>
+                    <button type="submit" class="post-job-submit-btn">
+                        Publish Job →
+                    </button>
+                </div>
+
+            </form>
+        </section>
+
+        <aside class="post-job-tips">
+            <div class="post-job-tips-icon">✨</div>
+            <h2>Tips for a Great Job Post</h2>
+            <p>Make your opportunity clear and attractive to potential candidates.</p>
+
+            <div class="post-job-tip">
+                <span>01</span>
+                <div>
+                    <h3>Clear Job Title</h3>
+                    <p>Choose a specific title that candidates can easily understand.</p>
+                </div>
+            </div>
+
+            <div class="post-job-tip">
+                <span>02</span>
+                <div>
+                    <h3>Detailed Description</h3>
+                    <p>Explain the responsibilities and what the candidate will do.</p>
+                </div>
+            </div>
+
+            <div class="post-job-tip">
+                <span>03</span>
+                <div>
+                    <h3>List Requirements</h3>
+                    <p>Mention relevant skills, qualifications and experience.</p>
+                </div>
+            </div>
+
+            <div class="post-job-tip">
+                <span>04</span>
+                <div>
+                    <h3>Salary Transparency</h3>
+                    <p>Adding a salary or stipend helps candidates understand the opportunity.</p>
+                </div>
+            </div>
+
+            <a href="{{ url_for('my_posted_jobs') }}" class="post-job-back-link">
+                ← Back to My Posted Jobs
+            </a>
+        </aside>
+
+    </div>
+</div>
+{% endblock %}

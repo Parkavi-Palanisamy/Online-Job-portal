@@ -1,0 +1,112 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="posted-jobs-page">
+
+    <section class="posted-jobs-hero">
+        <div>
+            <span class="posted-jobs-eyebrow">RECRUITER WORKSPACE</span>
+            <h1>My Posted Jobs</h1>
+            <p>Manage your job openings and find the right candidates for your team.</p>
+        </div>
+
+        <div class="posted-jobs-hero-icon">💼</div>
+    </section>
+
+    <div class="posted-jobs-heading">
+        <div>
+            <h2>Your Job Openings</h2>
+            <p>
+                You have {{ jobs|length }}
+                job{{ '' if jobs|length == 1 else 's' }} posted.
+            </p>
+        </div>
+
+        <a href="{{ url_for('post_job') }}" class="posted-jobs-create">
+            + Post a New Job
+        </a>
+    </div>
+
+    {% if jobs %}
+        <div class="posted-jobs-list">
+            {% for job in jobs %}
+                <article class="posted-job-card">
+
+                    <div class="posted-job-top">
+                        <div class="posted-job-icon">
+                            {{ (job.company_name or "C")[0]|upper }}
+                        </div>
+
+                        <div class="posted-job-title">
+                            <h3>{{ job.title }}</h3>
+                            <p>{{ job.company_name or "Company not specified" }}</p>
+                        </div>
+
+                        <span class="posted-job-type">
+                            {{ job.job_type }}
+                        </span>
+                    </div>
+
+                    <div class="posted-job-details">
+                        <div class="posted-job-detail">
+                            <span>📍</span>
+                            <div>
+                                <small>Location</small>
+                                <p>{{ job.location or "Not specified" }}</p>
+                            </div>
+                        </div>
+
+                        <div class="posted-job-detail">
+                            <span>💰</span>
+                            <div>
+                                <small>Salary</small>
+                                <p>{{ job.salary or "Not specified" }}</p>
+                            </div>
+                        </div>
+
+                        <div class="posted-job-detail">
+                            <span>🗓️</span>
+                            <div>
+                                <small>Posted On</small>
+                                <p>{{ job.posted_at }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="posted-job-description">
+                        <h4>Job Description</h4>
+                        <p>{{ job.description }}</p>
+                    </div>
+
+                    <div class="posted-job-footer">
+                        <span class="posted-job-footer-note">
+                            Review candidates who applied for this position.
+                        </span>
+
+                        <a href="{{ url_for('view_applicants', job_id=job.job_id) }}"
+                           class="posted-job-applicants-btn">
+                            View Applicants →
+                        </a>
+                    </div>
+
+                </article>
+            {% endfor %}
+        </div>
+
+    {% else %}
+        <section class="posted-jobs-empty">
+            <div class="posted-jobs-empty-icon">📋</div>
+            <h2>No Jobs Posted Yet</h2>
+            <p>
+                Your job listings will appear here once you create your first opening.
+                Start connecting with potential candidates today!
+            </p>
+            <a href="{{ url_for('post_job') }}" class="posted-jobs-create">
+                + Post Your First Job
+            </a>
+        </section>
+    {% endif %}
+
+</div>
+{% endblock %}

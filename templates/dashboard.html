@@ -1,0 +1,147 @@
+
+{% extends "base.html" %}
+
+{% block title %}Job Seeker Dashboard | JobConnect{% endblock %}
+
+{% block content %}
+<div class="seeker-page">
+
+    <!-- Welcome Banner -->
+    <section class="seeker-welcome">
+        <div class="seeker-welcome-content">
+            <span class="seeker-eyebrow">YOUR CAREER WORKSPACE</span>
+            <h1>Welcome back, {{ user.get('name', 'User') }}! 👋</h1>
+            <p>Discover opportunities, track your applications, and take the next step in your career.</p>
+
+            <a href="{{ url_for('jobs') }}" class="seeker-primary-btn">
+                Explore Jobs <span>→</span>
+            </a>
+        </div>
+
+        <div class="seeker-avatar">
+            {{ user.get('name', 'U')[0]|upper }}
+        </div>
+    </section>
+
+    <!-- Overview -->
+    <section class="seeker-overview">
+        <div class="seeker-section-heading">
+            <span class="seeker-eyebrow">OVERVIEW</span>
+            <h2>Your Dashboard</h2>
+            <p>Everything you need for your job search in one place.</p>
+        </div>
+
+        <div class="seeker-cards">
+
+            <article class="seeker-card">
+                <div class="seeker-card-icon seeker-icon-blue">🔎</div>
+                <span class="seeker-card-label">JOB SEARCH</span>
+                <h3>Find Your Next Job</h3>
+                <p>Explore opportunities that match your interests and skills.</p>
+                <a href="{{ url_for('jobs') }}" class="seeker-card-link">
+                    Browse Jobs <span>→</span>
+                </a>
+            </article>
+
+            <article class="seeker-card">
+                <div class="seeker-card-icon seeker-icon-teal">📄</div>
+                <span class="seeker-card-label">APPLICATIONS</span>
+                <h3>My Applications</h3>
+                <p>Track the jobs you have applied for and check their status.</p>
+                <a href="{{ url_for('my_applications') }}" class="seeker-card-link">
+                    View Applications <span>→</span>
+                </a>
+            </article>
+
+            <article class="seeker-card">
+                <div class="seeker-card-icon seeker-icon-purple">👤</div>
+                <span class="seeker-card-label">YOUR ACCOUNT</span>
+                <h3>My Profile</h3>
+                <p>Keep your contact details and professional skills up to date.</p>
+                <a href="{{ url_for('profile') }}" class="seeker-card-link">
+                    Edit Profile <span>→</span>
+                </a>
+            </article>
+
+        </div>
+    </section>
+
+    <!-- Application Summary -->
+    <section class="seeker-application-summary">
+        <div class="application-summary-icon">📊</div>
+        <div class="application-summary-text">
+            <span class="seeker-eyebrow">APPLICATION SUMMARY</span>
+            <h2>{{ total_applications }}</h2>
+            <p>Total job applications submitted</p>
+        </div>
+        <a href="{{ url_for('my_applications') }}" class="seeker-summary-link">
+            Track Progress →
+        </a>
+    </section>
+
+    <!-- Profile Information -->
+    <section class="seeker-profile-section">
+        <div class="seeker-section-heading">
+            <span class="seeker-eyebrow">PERSONAL INFORMATION</span>
+            <h2>My Profile Details</h2>
+            <p>Make sure your information is up to date.</p>
+        </div>
+
+        <div class="seeker-profile-card">
+
+            <div class="seeker-profile-row">
+                <span class="seeker-profile-icon">👤</span>
+                <div class="seeker-profile-field">
+                    <span>Full Name</span>
+                    <strong>{{ user.get('name', 'Not provided') }}</strong>
+                </div>
+            </div>
+
+            <div class="seeker-profile-row">
+                <span class="seeker-profile-icon">✉️</span>
+                <div class="seeker-profile-field">
+                    <span>Email Address</span>
+                    <strong>{{ user.get('email', 'Not provided') }}</strong>
+                </div>
+            </div>
+
+            <div class="seeker-profile-row">
+                <span class="seeker-profile-icon">💡</span>
+                <div class="seeker-profile-field">
+                    <span>Skills</span>
+                    <strong>{{ user.get('skills') or 'Add your skills in My Profile.' }}</strong>
+                </div>
+            </div>
+
+            <div class="seeker-profile-row">
+                <span class="seeker-profile-icon">🎯</span>
+                <div class="seeker-profile-field">
+                    <span>Account Type</span>
+                    <strong>{{ user.get('role', 'job_seeker')|replace('_', ' ')|title }}</strong>
+                </div>
+            </div>
+
+            <a href="{{ url_for('profile') }}" class="seeker-edit-btn">
+                Update My Profile →
+            </a>
+
+        </div>
+    </section>
+
+    <!-- Career Tip -->
+    <section class="seeker-career-tip">
+        <div class="career-tip-icon">🚀</div>
+        <div>
+            <h3>Your next opportunity is waiting!</h3>
+            <p>Keep your profile updated and explore new job listings regularly.</p>
+        </div>
+        <a href="{{ url_for('jobs') }}">Find Jobs →</a>
+    </section>
+
+    <footer class="seeker-footer">
+        <strong>JobConnect</strong>
+        <p>Your journey. Your skills. Your next opportunity.</p>
+    </footer>
+
+</div>
+{% endblock %}

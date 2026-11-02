@@ -1,0 +1,162 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="home-page">
+
+    <section class="home-hero">
+        <div class="home-hero-content">
+            <span class="home-eyebrow">YOUR CAREER STARTS HERE</span>
+
+            <h1>Find the Right Job.<br>
+                Build Your <span>Future.</span>
+            </h1>
+
+            <p class="home-hero-description">
+                Discover exciting career opportunities, showcase your skills,
+                and connect with recruiters — all in one place.
+            </p>
+
+            <div class="home-hero-actions">
+                {% if session.get('user_id') %}
+                    {% if session.get('role') == 'recruiter' %}
+                        <a href="{{ url_for('recruiter_dashboard') }}"
+                           class="home-primary-btn">
+                            Go to Dashboard →
+                        </a>
+                        <a href="{{ url_for('post_job') }}"
+                           class="home-secondary-btn">
+                            Post a Job
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('jobs') }}"
+                           class="home-primary-btn">
+                            Explore Jobs →
+                        </a>
+                        <a href="{{ url_for('dashboard') }}"
+                           class="home-secondary-btn">
+                            My Dashboard
+                        </a>
+                    {% endif %}
+                {% else %}
+                    <a href="{{ url_for('register') }}"
+                       class="home-primary-btn">
+                        Get Started →
+                    </a>
+                    <a href="{{ url_for('login') }}"
+                       class="home-secondary-btn">
+                        Sign In
+                    </a>
+                {% endif %}
+            </div>
+
+            <div class="home-trust-note">
+                <span>✓</span> A simple platform for job seekers and recruiters
+            </div>
+        </div>
+
+        <div class="home-hero-visual">
+            <div class="home-visual-glow"></div>
+
+            <div class="home-illustration-card">
+                <div class="home-illustration-top">
+                    <div class="home-mini-logo">JC</div>
+                    <div>
+                        <strong>JobConnect</strong>
+                        <small>Career Opportunities</small>
+                    </div>
+                    <span class="home-online-dot"></span>
+                </div>
+
+                <div class="home-illustration-title">
+                    <small>YOUR NEXT CHAPTER</small>
+                    <h2>Opportunities<br>await you.</h2>
+                    <p>Take the next step in your career journey.</p>
+                </div>
+
+                <div class="home-opportunity">
+                    <div class="home-opportunity-icon">💻</div>
+                    <div>
+                        <strong>Technology Careers</strong>
+                        <small>Explore your potential</small>
+                    </div>
+                    <span>↗</span>
+                </div>
+
+                <div class="home-opportunity">
+                    <div class="home-opportunity-icon home-icon-teal">🚀</div>
+                    <div>
+                        <strong>Internship Opportunities</strong>
+                        <small>Learn and grow</small>
+                    </div>
+                    <span>↗</span>
+                </div>
+
+                <div class="home-visual-footer">
+                    <span>Discover</span>
+                    <span>Apply</span>
+                    <span>Grow</span>
+                </div>
+            </div>
+
+            <div class="home-floating-badge">
+                <span>✦</span>
+                Your future starts today
+            </div>
+        </div>
+    </section>
+
+    <section class="home-features">
+        <div class="home-section-heading">
+            <span>WHY JOBCONNECT?</span>
+            <h2>Your journey to a better career</h2>
+            <p>Everything you need to take your next professional step.</p>
+        </div>
+
+        <div class="home-feature-grid">
+            <article class="home-feature-card">
+                <div class="home-feature-icon">🔎</div>
+                <h3>Discover Jobs</h3>
+                <p>Explore available job openings and find opportunities that match your interests.</p>
+            </article>
+
+            <article class="home-feature-card">
+                <div class="home-feature-icon">📄</div>
+                <h3>Easy Applications</h3>
+                <p>Apply for opportunities, upload your resume, and track your application status.</p>
+            </article>
+
+            <article class="home-feature-card">
+                <div class="home-feature-icon">🤝</div>
+                <h3>Recruiter Connection</h3>
+                <p>Recruiters can publish vacancies, review candidate resumes, and manage applicants.</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="home-cta">
+        <div>
+            <span>READY FOR YOUR NEXT STEP?</span>
+            <h2>Your next opportunity starts with one click.</h2>
+            <p>Create your account and start exploring JobConnect.</p>
+        </div>
+
+        {% if session.get('user_id') %}
+            {% if session.get('role') == 'recruiter' %}
+                <a href="{{ url_for('post_job') }}" class="home-cta-btn">
+                    Post a Job →
+                </a>
+            {% else %}
+                <a href="{{ url_for('jobs') }}" class="home-cta-btn">
+                    Browse Jobs →
+                </a>
+            {% endif %}
+        {% else %}
+            <a href="{{ url_for('register') }}" class="home-cta-btn">
+                Create Account →
+            </a>
+        {% endif %}
+    </section>
+
+</div>
+{% endblock %}

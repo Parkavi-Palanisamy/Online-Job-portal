@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}JobConnect | Online Job Portal{% endblock %}</title>
+
+    <meta name="description"
+          content="JobConnect helps job seekers find opportunities and recruiters connect with talented candidates.">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+
+            <a href="{{ url_for('home') }}" class="brand">
+                    Job<span>Connect</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="{{ url_for('home') }}">Home</a>
+
+                {% if session.get('user_id') %}
+
+                    {% if session.get('role') == 'recruiter' %}
+                        <a href="{{ url_for('recruiter_dashboard') }}">Dashboard</a>
+                        <a href="{{ url_for('my_posted_jobs') }}">My Posted Jobs</a>
+                    {% elif session.get('role') == 'job_seeker' %}
+                        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                        <a href="{{ url_for('jobs') }}">Browse Jobs</a>
+                        <a href="{{ url_for('my_applications') }}">My Applications</a>
+                    {% else %}
+                        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                    {% endif %}
+
+                    <a href="{{ url_for('profile') }}">My Profile</a>
+                    <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+
+                {% else %}
+                    <a href="{{ url_for('login') }}">Login</a>
+                    <a href="{{ url_for('register') }}" class="register-btn">
+                        Get Started
+                    </a>
+                {% endif %}
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-container">
+                    {% for message in messages %}
+                        <div class="flash-message">
+                            <span>{{ message }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+
+            <div class="footer-brand">
+                <a href="{{ url_for('home') }}" class="brand">
+                    Job<span>Connect</span>
+                </a>
+                <p>
+                    Connecting talented people with the right opportunities.
+                    Your next career move starts here.
+                </p>
+            </div>
+
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <a href="{{ url_for('home') }}">Home</a>
+                <a href="{{ url_for('jobs') }}">Browse Jobs</a>
+                <a href="{{ url_for('login') }}">Login</a>
+            </div>
+
+            <div class="footer-contact">
+                <h3>Our Purpose</h3>
+                <p>Helping job seekers and recruiters connect with confidence.</p>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 JobConnect. All rights reserved.</p>
+            <p>Built with care for your career journey.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

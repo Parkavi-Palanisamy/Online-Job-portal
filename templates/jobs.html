@@ -1,0 +1,147 @@
+
+{% extends "base.html" %}
+
+{% block title %}Browse Jobs | JobConnect{% endblock %}
+
+{% block content %}
+<div class="browse-jobs-page">
+
+    <!-- Page Header -->
+    <section class="browse-jobs-hero">
+        <div>
+            <span class="browse-eyebrow">CAREER OPPORTUNITIES</span>
+            <h1>Find Your Dream Job</h1>
+            <p>Discover opportunities, showcase your skills, and take the next step in your career.</p>
+        </div>
+
+        <div class="browse-hero-icon">💼</div>
+    </section>
+
+    <!-- Jobs Count -->
+    <div class="browse-results-heading">
+        <div>
+            <h2>Explore Opportunities</h2>
+            <p>Find the role that matches your career goals.</p>
+        </div>
+
+        <span class="browse-job-count">
+            {{ jobs|length }} Job{% if jobs|length != 1 %}s{% endif %} Available
+        </span>
+    </div>
+
+    <!-- Job Listings -->
+    {% if jobs %}
+        <div class="browse-jobs-list">
+
+            {% for job in jobs %}
+                <article class="browse-job-card">
+
+                    <div class="browse-job-top">
+                        <div class="browse-company-icon">
+                            {{ (job.company_name or 'C')[0]|upper }}
+                        </div>
+
+                        <div class="browse-job-heading">
+                            <h3>{{ job.title }}</h3>
+                            <p>{{ job.company_name or "Company not specified" }}</p>
+                        </div>
+
+                        <span class="browse-job-type">
+                            {{ job.job_type or "Not specified" }}
+                        </span>
+                    </div>
+
+                    <div class="browse-job-details">
+                        <span>
+                            <span class="browse-detail-icon">📍</span>
+                            {{ job.location or job.company_location or "Location not specified" }}
+                        </span>
+
+                        <span>
+                            <span class="browse-detail-icon">💰</span>
+                            {{ job.salary or "Salary not specified" }}
+                        </span>
+
+                        <span>
+                            <span class="browse-detail-icon">📅</span>
+                            {{ job.posted_at.strftime('%d %b %Y') if job.posted_at else 'Recently posted' }}
+                        </span>
+                    </div>
+
+                    <div class="browse-job-description">
+                        <h4>About the Role</h4>
+                        <p>{{ job.description }}</p>
+                    </div>
+
+                    {% if job.requirements %}
+                        <div class="browse-job-requirements">
+                            <h4>Requirements</h4>
+                            <p>{{ job.requirements }}</p>
+                        </div>
+                    {% endif %}
+
+                    <div class="browse-job-footer">
+
+                        {% if session.get('role') == 'job_seeker' %}
+
+                            <form
+                                class="browse-apply-form"
+                                method="POST"
+                                action="{{ url_for('apply_job', job_id=job.job_id) }}"
+                                enctype="multipart/form-data"
+                            >
+                                <div class="browse-resume-field">
+                                    <label for="resume-{{ job.job_id }}">
+                                        Upload Resume (PDF)
+                                    </label>
+
+                                    <input
+                                        type="file"
+                                        name="resume"
+                                        id="resume-{{ job.job_id }}"
+                                        accept=".pdf,application/pdf"
+                                        required
+                                    >
+                                </div>
+
+                                <button type="submit" class="browse-apply-btn">
+                                    Apply Now <span>→</span>
+                                </button>
+                            </form>
+
+                        {% elif session.get('role') == 'recruiter' %}
+
+                            <p class="browse-role-note">
+                                Recruiter accounts cannot apply for jobs.
+                            </p>
+
+                        {% elif not session.get('user_id') %}
+
+                            <a href="{{ url_for('login') }}" class="browse-apply-btn">
+                                Login to Apply →
+                            </a>
+
+                        {% endif %}
+
+                    </div>
+
+                </article>
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <section class="browse-empty-state">
+            <div class="browse-empty-icon">🔎</div>
+            <h2>No Jobs Available Yet</h2>
+            <p>New opportunities will appear here when recruiters publish job listings.</p>
+            {% if session.get('role') == 'job_seeker' %}
+                <a href="{{ url_for('my_applications') }}">View My Applications →</a>
+            {% endif %}
+        </section>
+
+    {% endif %}
+
+</div>
+{% endblock %}

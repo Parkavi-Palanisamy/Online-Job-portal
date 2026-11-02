@@ -1,0 +1,120 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="my-apps-page">
+
+    <section class="my-apps-hero">
+        <div>
+            <span class="my-apps-label">JOB SEEKER PORTAL</span>
+            <h1>My Applications</h1>
+            <p>Track your applications and stay updated on your career journey.</p>
+        </div>
+
+        <div class="my-apps-hero-icon">📄</div>
+    </section>
+
+    <div class="my-apps-summary">
+        <div>
+            <span class="my-apps-summary-icon">📋</span>
+            <div>
+                <h3>{{ applications|length }}</h3>
+                <p>Total Applications</p>
+            </div>
+        </div>
+        <div>
+            <span class="my-apps-summary-icon">🎯</span>
+            <div>
+                <h3>Track</h3>
+                <p>Your Application Status</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="my-apps-heading">
+        <div>
+            <h2>Application History</h2>
+            <p>Review the jobs you have applied for.</p>
+        </div>
+        <a href="{{ url_for('jobs') }}" class="my-apps-browse">
+            + Browse Jobs
+        </a>
+    </div>
+
+    {% if applications %}
+        <div class="my-apps-list">
+            {% for application in applications %}
+                <article class="my-app-card">
+
+                    <div class="my-app-card-top">
+                        <div class="my-app-company-icon">
+                            {{ (application.company_name or "J")[0]|upper }}
+                        </div>
+
+                        <div class="my-app-title">
+                            <h3>{{ application.job_title }}</h3>
+                            <p>{{ application.company_name or "Company not specified" }}</p>
+                        </div>
+
+                        {% set status = application.status or "Pending" %}
+                        <span class="my-app-status
+                            {% if status|lower == 'shortlisted' %}
+                                status-shortlisted
+                            {% elif status|lower == 'rejected' %}
+                                status-rejected
+                            {% elif status|lower == 'reviewed' %}
+                                status-reviewed
+                            {% else %}
+                                status-pending
+                            {% endif %}">
+                            {{ status }}
+                        </span>
+                    </div>
+
+                    <div class="my-app-details">
+                        <div>
+                            <span>📍</span>
+                            <div>
+                                <small>Location</small>
+                                <p>{{ application.job_location or "Not specified" }}</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <span>💼</span>
+                            <div>
+                                <small>Job Type</small>
+                                <p>{{ application.job_type or "Not specified" }}</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <span>🗓️</span>
+                            <div>
+                                <small>Applied On</small>
+                                <p>{{ application.applied_at }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="my-app-card-footer">
+                        <span>Application status</span>
+                        <strong>{{ status }}</strong>
+                    </div>
+
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="my-app-empty">
+            <div class="my-app-empty-icon">📂</div>
+            <h2>No Applications Yet</h2>
+            <p>You haven't applied for any jobs yet. Explore available opportunities and take your next career step!</p>
+            <a href="{{ url_for('jobs') }}" class="my-apps-browse">
+                Explore Jobs →
+            </a>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}
